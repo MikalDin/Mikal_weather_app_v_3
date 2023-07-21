@@ -1,3 +1,5 @@
+const { shoWeatherData } = required = require('../script');
+
 const timeE1 = document.getElementById('time');
 const dateE1 = document.getElementById('date');
 const currentWeatherItemsE1 = document.getElementById ('current-weather-items');
@@ -9,6 +11,7 @@ const currentTempE1 = document.getElementById('current-temp');
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const API_KEY = 'b1cc29c3bce1f7c0e85aea3949c5c931';
+
 setInterval(() => {
         const time = new Date();
         const month = time.getMonth();
@@ -29,20 +32,41 @@ setInterval(() => {
 
 }, 1000);
        
-getWeatherData()
+getWeatherData();
 function getWeatherData () {
-    navigator.geolocation.getCurrentPosition((success) =>{
+    navigator.geolocation.getCurrentPosition(
+        (success) =>{
         console.log(success);
 
         let {latitude, longitude} = success.coords;
 
-        fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`).then(res => res.json()).then(data => {
-
+        fetch(
+            `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`
+            )
+            .then((res => {
+                if(!res.ok){
+                    throw new Error(;Network response was not ok');
+            }
+            return res.json();
+        })
+        .then((data) => {
+            showWeatherData(data);
+        })
+        catch((error)=> {
+            console.error'Error fetching wether data:', error);
+        });
+    }  
+        (error) => {
+console.error
+        
+        .then((data) => {
+            showWeatherData(data)
         console.log(data)
         showWeatherData(data);
-         })
-    })
- }
+         }
+        );  
+    }:
+ 
 function showWeatherData(data){
     let {humidity, pressure, sunrise, sunset, wind_speed} = data.current;
      timezone.innerHTML = data.timezone;
@@ -70,6 +94,7 @@ function showWeatherData(data){
     <div>${window.moment(sunset * 1000).format('HH:mm a')}</div>
 </div>
 `;
+let otherDayForecast = ' ' :
 data.daily.forEach((day, idx)) => {
         if(idx == 0){
             currentTempE1.innerHTML = `
