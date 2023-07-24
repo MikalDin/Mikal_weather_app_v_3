@@ -1,15 +1,15 @@
-const { shoWeatherData } = required = require('../script');
-
-const timeE1 = document.getElementById('time');
-const dateE1 = document.getElementById('date');
-const currentWeatherItemsE1 = document.getElementById ('current-weather-items');
+const timeEl = document.getElementById('time');
+const dateEl = document.getElementById('date');
+const currentWeatherItemsEl = document.getElementById ('current-weather-items');
 const timezone = document.getElementById('time-zone');
-const countryE1 = document.getElementById('country');
-const weatherForecastE1 = document.getElementById('weather-forecast');
-const currentTempE1 = document.getElementById('current-temp');
+const countryEl = document.getElementById('country');
+const weatherForecastEl = document.getElementById('weather-forecast');
+//const dateE1 = document.getElementById('date');
+currentTempEl = document.getElementById('current-temp');
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 const API_KEY = 'b1cc29c3bce1f7c0e85aea3949c5c931';
 
 setInterval(() => {
@@ -22,57 +22,36 @@ setInterval(() => {
         const minutes= time.getMinutes();
         const ampm = hour >=12 ? 'PM' : 'AM'
 
-        timeE1.innerHTML = (hoursIn12HrFormat < 10? '0'+hoursIn12HrFormat : + hoursIn12HrFormat) + ':' + (minutes < 10? '0'+minutes: 
+        timeEl.innerHTML = (hoursIn12HrFormat < 10? '0'+hoursIn12HrFormat : + hoursIn12HrFormat) + ':' + (minutes < 10? '0'+minutes: 
         minutes)+ ' ' + `<span id="am-pm">${ampm}</span>`
 
-        dateE1.innerHTML = days[day] + ', ' + date+ ' ' + months[month]
-        
-        deleteE1.innerHTML =
-
-
-}, 1000);
+        dateEl.innerHTML = days[day] + ', ' + date+ ' ' + months[month]
+    }, 1000);
        
 getWeatherData();
 function getWeatherData () {
-    navigator.geolocation.getCurrentPosition(
-        (success) =>{
-        console.log(success);
-
+    navigator.geolocation.getCurrentPosition((success) =>{
+        
         let {latitude, longitude} = success.coords;
 
         fetch(
-            `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`
-            )
-            .then((res => {
-                if(!res.ok){
-                    throw new Error(;Network response was not ok');
-            }
-            return res.json();
-        })
-        .then((data) => {
-            showWeatherData(data);
-        })
-        catch((error)=> {
-            console.error'Error fetching wether data:', error);
-        });
-    }  
-        (error) => {
-console.error
+            `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`)
+            .then(res => res.json()).then(data => {
+
+                console.log(data)
+                showWeatherData(data);
+                })
         
-        .then((data) => {
-            showWeatherData(data)
-        console.log(data)
-        showWeatherData(data);
-         }
-        );  
-    }:
+            })
+        }
+            
  
 function showWeatherData(data){
     let {humidity, pressure, sunrise, sunset, wind_speed} = data.current;
      timezone.innerHTML = data.timezone;
-     countryE1.innerHTML = data.lat + 'N' + data.lon+'E'
+     countryEl.innerHTML = data.lat + 'N' + data.lon+'E'
 
-    currentWeatherItemsE1.innerHTML =
+    currentWeatherItemsEl.innerHTML =
 `<div class="weather-item">
     <div>Humidity</div>
     <div>${humidity}%</div>
@@ -97,7 +76,7 @@ function showWeatherData(data){
 let otherDayForecast = ' ' :
 data.daily.forEach((day, idx)) => {
         if(idx == 0){
-            currentTempE1.innerHTML = `
+            currentTempEl.innerHTML = `
             <img src="http://openweathermap.org/img/wn/${day.weather[0].icon}@4x.png" alt="weather icon" class="w-icon">
             <div class="other">
                 <div class="day">${window.moment(day.dt * 1000).format('ddd')
@@ -123,6 +102,6 @@ data.daily.forEach((day, idx)) => {
         }
     }}
    
-    weatherForecastE1.innerHTML = otherDayForecast;
+    weatherForecastEl.innerHTML = otherDayForecast;
 
 }   
