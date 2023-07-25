@@ -99,7 +99,7 @@ body{
     background: rgba(0,0,0,0.2);
 }
 
-.future-forecast  .today  .day{
+.future-forecast  .today  .day {
 padding: 5px; 15px;
 background:#3c3c44;
 border-radius: 50px;
@@ -165,7 +165,7 @@ background: rgba(0,0,0,0.2)
         font-size: 20px;
     }
 
-    .date-container  .date{
+    .date-container .date{
         font-size: 20px;
 
     }
@@ -191,7 +191,7 @@ background: rgba(0,0,0,0.2)
 
 }
 
-@media only screen and (max-width: 1000px){
+media only screen and (max-width: 1000px){
     .future-forecast{
         justify-content: start;
         align-items: none;
