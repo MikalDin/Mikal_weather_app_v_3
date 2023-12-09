@@ -20,6 +20,34 @@ body{
     color:#ffff
 }
 
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+ #location-input {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    width: 200px;
+ }
+
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color  0.3 ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
 .current-info{
     display: flex;
     justify-content: space-between;

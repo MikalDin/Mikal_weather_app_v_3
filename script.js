@@ -34,14 +34,57 @@ function getWeatherData () {
         
         let {latitude, longitude } = success.coords;
 
-        fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`).then(res => res.json()).then(data => {
-
-        console.log(data)
-        showWeatherData(data);
-        })
-
-    })
+                // Using the different OpenWeatherMap API endpoints based on geolocation
+        // 1. By city name
+        fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q={city name}&appid=${API_KEY}`)
+            .then((res) => res.json())
+            .then((data) => {
+                 console.log(data);
+                showWeatherData(data);
+        });
+            // 2. By city name and country code
+            fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q={city name},{country code}&appid=${API_KEY}`)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                // Process and display the data as needed
+    });
+     // 3. By city name, state code, and country code
+     fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q={city name},{state code},{country code}&appid=${API_KEY}`)
+     .then((res) => res.json())
+     .then((data) => {
+         console.log(data);
+         // Process and display the data as needed
+     });
+    });
 }
+
+const locationForm = document.getElementById('location-form');
+const locationInput = document.getElementById('location-input');
+
+locationForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const location = locationInput.ariaValueMax.trim();
+
+            if (location) {
+                getWeatherDataByLocation(location);
+                locationInput.value = '';
+            } else {
+                alert('Please enter a location');
+            }
+});
+
+function getWeatherDataByLocation(location) {
+            fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?q=${location}&appid=${API_KEY}`)
+}                   .then((res) => res.json())
+                    .then((data) => {
+                        console.log(data);
+                        showWeatherData(data);
+                    })
+            .catch((error) => {
+                console.error('Error fetching weather data', error);
+            });
+        
 
 function showWeatherData (data){
     let {humidity, pressure, sunrise, sunset, wind_speed} = data.current;
